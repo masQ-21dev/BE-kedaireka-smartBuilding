@@ -5,6 +5,7 @@ import { type excampleCRUDAtributes, excampleCRUDModel } from '../../models/exca
 import { ResponseData } from '../../utilities/response'
 import { StatusCodes } from 'http-status-codes'
 import { CONSOLE } from '../../utilities/log'
+import { RequestChecker } from '../../utilities/requestChecker'
 
 export const findAllExcampleCrud = async function (req: any, res: Response): Promise<any> {
   try {
@@ -41,4 +42,34 @@ export const findAllExcampleCrud = async function (req: any, res: Response): Pro
 
 export const findOneexcampleCrud = async function (req: any, res: Response): Promise<any> {
   const requestParam = req.params as excampleCRUDAtributes
+
+  const emptyfield = RequestChecker({
+    requireList: ['excample_id'],
+    requestData: requestParam
+  })
+
+  if (emptyfield.length > 0) {
+    const message = `unable to process request! error( ${emptyfield})`
+    const response = ResponseData.error(message)
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+  }
+
+  try {
+    const result = await excampleCRUDModel.findAndCountAll({
+      where: {
+        deleted_at: { [Op.eq]: 0 },
+        excample_id: { [Op.eq]: requestParam.excample_id }
+      }
+    })
+
+    const response = ResponseData.default
+    response.data = result
+    return res.status(StatusCodes.OK).json(response)
+  } catch (error: any) {
+    CONSOLE.error(error.message)
+
+    const message = `unable to process request! error ${error.message}`
+    const response = ResponseData.error(message)
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+  }
 }

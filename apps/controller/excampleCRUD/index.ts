@@ -1,5 +1,8 @@
-import { findAllExcampleCrud } from './find'
+import { findAllExcampleCrud, findOneexcampleCrud } from './find'
+import { createExcampleCrud } from './create'
 
 export const excampleCrudController = {
-  findAll: findAllExcampleCrud
+  create: createExcampleCrud,
+  findAll: findAllExcampleCrud,
+  findOne: findOneexcampleCrud
 }
