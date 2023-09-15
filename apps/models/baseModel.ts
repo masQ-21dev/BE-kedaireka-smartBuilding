@@ -1,33 +1,31 @@
 import { DataTypes, Sequelize } from 'sequelize'
 
-const baseModel = {
+export const baseModel = {
   id: {
     type: DataTypes.BIGINT,
     autoIncrement: true,
     primaryKey: true,
     allowNull: false
   },
-  createdAt: {
+  created_at: {
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: Sequelize.fn('now')
   },
-  updatedAt: {
+  updated_at: {
     type: DataTypes.DATE,
     allowNull: true
   },
-  deletedAt: {
+  deleted_at: {
     type: DataTypes.TINYINT,
     allowNull: false,
     defaultValue: 0
   }
 }
 
-interface baseAtributes {
+export interface baseAtributes {
   id: number
-  createdAt: string
-  updatedAt: string | null
-  deletedAt: number
+  created_at: string
+  updated_at: string | null
+  deleted_at: number
 }
-
-export { baseModel, type baseAtributes }

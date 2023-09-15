@@ -2,19 +2,19 @@ import { type Model, type Optional, UUIDV4, DataTypes } from 'sequelize'
 import { sequelize } from '.'
 import { type baseAtributes, baseModel } from './baseModel'
 
-export interface excampleCRUD extends baseAtributes {
+export interface excampleCRUDAtributes extends baseAtributes {
   excample_id: string
   excample_name: string
 }
 
 type excampleCRUDCreationAtributes = Optional<
-excampleCRUD,
-'id' | 'createdAt' | 'updatedAt'
+excampleCRUDAtributes,
+'id' | 'created_at' | 'updated_at'
 >
 
 interface excampleCRUDInstance
-  extends Model<excampleCRUD, excampleCRUDCreationAtributes>,
-  excampleCRUD {}
+  extends Model<excampleCRUDAtributes, excampleCRUDCreationAtributes>,
+  excampleCRUDAtributes {}
 
 export const excampleCRUDModel = sequelize.define<excampleCRUDInstance>(
   'excample_tabel',

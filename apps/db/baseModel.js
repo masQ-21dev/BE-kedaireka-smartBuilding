@@ -8,16 +8,16 @@ const baseModel = {
     primaryKey: true,
     allowNull: false
   },
-  createdAt: {
+  created_at: {
     type: Sequelize.DATE,
     allowNull: false,
     defaultValue: Sequelize.fn('now')
   },
-  updatedAt: {
+  updated_at: {
     type: Sequelize.DATE,
     allowNull: true
   },
-  deletedAt: {
+  deleted_at: {
     type: Sequelize.TINYINT,
     allowNull: false,
     defaultValue: 0
