@@ -8,7 +8,10 @@ export const excampleCRUDRoutes = (app: Express) => {
   const route = express.Router()
   app.use('/api/v2/excample-crud', route)
 
-  route.get('/', async (req: Request, res: Response) => await excampleCrudController.findAll(req, res))
+  route.get(
+    '/',
+    async (req: Request, res: Response) => await excampleCrudController.findAll(req, res)
+  )
 
   route.get(
     '/detail/:excample_id',
@@ -18,5 +21,15 @@ export const excampleCRUDRoutes = (app: Express) => {
   route.post(
     '/',
     async (req: Request, res: Response) => await excampleCrudController.create(req, res)
+  )
+
+  route.patch(
+    '/',
+    async (req: Request, res: Response) => await excampleCrudController.update(req, res)
+  )
+
+  route.delete(
+    '/',
+    async (req: Request, res: Response) => await excampleCrudController.remove(req, res)
   )
 }

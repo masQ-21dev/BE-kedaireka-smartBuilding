@@ -1,17 +1,18 @@
 import { type Response } from 'express'
-import { excampleCRUDModel, type excampleCRUDAtributes } from '../../models/excampleModel'
+import { v4 as uuidv4 } from 'uuid'
+import { Op } from 'sequelize'
+import { userModel, type userAtributes } from '../../models/userModel'
 import { RequestChecker } from '../../utilities/requestChecker'
 import { ResponseData } from '../../utilities/response'
 import { StatusCodes } from 'http-status-codes'
-import { Op } from 'sequelize'
 import { CONSOLE } from '../../utilities/log'
 
-export const removeExcampleCrud = async function (req: any, res: Response): Promise<any> {
-  const requestQuery = req.query as excampleCRUDAtributes
+export const registerControler = async function (req: any, res: Response): Promise<any> {
+  const requestBody = req.body as userAtributes
 
   const emptyfield = RequestChecker({
-    requireList: ['excample_id'],
-    requestData: requestQuery
+    requireList: ['user_name', 'user_email', 'password'],
+    requestData: requestBody
   })
 
   if (emptyfield.length > 0) {
@@ -21,25 +22,22 @@ export const removeExcampleCrud = async function (req: any, res: Response): Prom
   }
 
   try {
-    const result = await excampleCRUDModel.findOne({
+    const emialChek = await userModel.findAll({
       where: {
-        deleted_at: { [Op.eq]: 0 },
-        excample_id: { [Op.eq]: requestQuery.excample_id }
+        user_email: { [Op.like]: requestBody.user_email }
       }
     })
-
-    if (result == null) {
-      const message = 'not found!'
+    if (emialChek !== null) {
+      const message = `${requestBody.user_email} telah terdaftar, Gunakan Email lain !`
       const response = ResponseData.error(message)
-      return res.status(StatusCodes.NOT_FOUND).json(response)
+      return res.status(StatusCodes.BAD_REQUEST).json(response)
     }
-    result.deleted_at = 1
-    void result.save()
+    requestBody.user_id = uuidv4()
+    await userModel.create(requestBody)
 
     const response = ResponseData.default
-    const message = { message: 'success' }
-    response.data = message
-    return res.status(StatusCodes.OK).json(response)
+    response.data = { message: 'success' }
+    return res.status(StatusCodes.CREATED).json(response)
   } catch (error: any) {
     CONSOLE.error(error.message)
 
