@@ -6,6 +6,7 @@ import { RequestChecker } from '../../utilities/requestChecker'
 import { ResponseData } from '../../utilities/response'
 import { StatusCodes } from 'http-status-codes'
 import { CONSOLE } from '../../utilities/log'
+import { hashPasword } from '../../utilities/scurePassword'
 
 export const registerControler = async function (req: any, res: Response): Promise<any> {
   const requestBody = req.body as userAtributes
@@ -23,16 +24,20 @@ export const registerControler = async function (req: any, res: Response): Promi
 
   try {
     const emialChek = await userModel.findAll({
+      raw: true,
       where: {
+        deleted_at: { [Op.eq]: 0 },
         user_email: { [Op.like]: requestBody.user_email }
       }
     })
-    if (emialChek !== null) {
-      const message = `${requestBody.user_email} telah terdaftar, Gunakan Email lain !`
+    if (emialChek.length > 0) {
+      const message = `Email ${requestBody.user_email} has been used, use other emial !`
       const response = ResponseData.error(message)
       return res.status(StatusCodes.BAD_REQUEST).json(response)
     }
+
     requestBody.user_id = uuidv4()
+    requestBody.password = await hashPasword(requestBody.password)
     await userModel.create(requestBody)
 
     const response = ResponseData.default

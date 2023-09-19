@@ -17,23 +17,13 @@ export const authRouter = (app: Express) => {
     async (req: Request, res: Response) => await authControler.register(req, res)
   )
 
-  //   route.post(
-  //     '/login',
-  //     // async (req: Request, res: Response) => await authControler.login(req, res)
-  //   )
+  route.post(
+    '/login',
+    async (req: Request, res: Response) => await authControler.login(req, res)
+  )
 
-  //   route.post(
-  //     '/',
-  //     async (req: Request, res: Response) => await excampleCrudController.create(req, res)
-  //   )
-
-  //   route.patch(
-  //     '/',
-  //     async (req: Request, res: Response) => await excampleCrudController.update(req, res)
-  //   )
-
-//   route.delete(
-//     '/',
-//     async (req: Request, res: Response) => await excampleCrudController.remove(req, res)
-//   )
+  route.post(
+    '/verifiemail',
+    async (req: Request, res: Response) => await authControler.verifiEmail(req, res)
+  )
 }
