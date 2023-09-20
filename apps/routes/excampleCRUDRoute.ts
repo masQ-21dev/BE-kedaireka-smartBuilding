@@ -3,10 +3,11 @@
 import express, { type Express, type Request, type Response } from 'express'
 
 import { excampleCrudController } from '../controller'
+import { middelware } from '../middelware'
 
 export const excampleCRUDRoutes = (app: Express) => {
   const route = express.Router()
-  app.use('/api/v2/excample-crud', route)
+  app.use('/api/v2/excample-crud', middelware.userAuthorization, route)
 
   route.get(
     '/',

@@ -10,7 +10,8 @@ module.exports = {
       user_id: {
         type: Sequelize.UUID,
         allowNull: false,
-        defaultValue: Sequelize.UUIDV4
+        defaultValue: Sequelize.UUIDV4,
+        unique: true
       },
       user_email: {
         type: Sequelize.STRING,

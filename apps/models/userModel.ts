@@ -1,6 +1,7 @@
 import { type Model, type Optional, UUIDV4, DataTypes } from 'sequelize'
 import { sequelize } from '.'
 import { type baseAtributes, baseModel } from './baseModel'
+import { accessModel } from './accessModel'
 
 export interface userAtributes extends baseAtributes {
   user_id: string
@@ -58,3 +59,6 @@ export const userModel = sequelize.define<userInstance>(
     engine: 'InnoDB'
   }
 )
+
+userModel.hasOne(accessModel, { foreignKey: 'user_id' })
+accessModel.belongsTo(userModel, { foreignKey: 'user_id' })

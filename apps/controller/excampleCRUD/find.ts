@@ -8,6 +8,8 @@ import { CONSOLE } from '../../utilities/log'
 import { RequestChecker } from '../../utilities/requestChecker'
 
 export const findAllExcampleCrud = async function (req: any, res: Response): Promise<any> {
+  const user = req.user
+  console.log(user)
   try {
     const page = new Pagination(
       parseInt(req.query.page) ?? 0,
@@ -55,12 +57,17 @@ export const findOneexcampleCrud = async function (req: any, res: Response): Pro
   }
 
   try {
-    const result = await excampleCRUDModel.findAndCountAll({
+    const result = await excampleCRUDModel.findOne({
       where: {
         deleted_at: { [Op.eq]: 0 },
         excample_id: { [Op.eq]: requestParam.excample_id }
       }
     })
+    if (result == null) {
+      const response = ResponseData.default
+      response.data = { message: 'data not found' }
+      return res.status(StatusCodes.NOT_FOUND).json(response)
+    }
 
     const response = ResponseData.default
     response.data = result

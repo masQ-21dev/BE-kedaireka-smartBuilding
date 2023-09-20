@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { type Response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import { Op } from 'sequelize'
@@ -7,6 +8,7 @@ import { ResponseData } from '../../utilities/response'
 import { StatusCodes } from 'http-status-codes'
 import { CONSOLE } from '../../utilities/log'
 import { hashPasword } from '../../utilities/scurePassword'
+import { type accessAtributes, accessModel } from '../../models/accessModel'
 
 export const registerControler = async function (req: any, res: Response): Promise<any> {
   const requestBody = req.body as userAtributes
@@ -39,6 +41,14 @@ export const registerControler = async function (req: any, res: Response): Promi
     requestBody.user_id = uuidv4()
     requestBody.password = await hashPasword(requestBody.password)
     await userModel.create(requestBody)
+    // const token = await generateAccessToken({
+    //   userId: requestBody.user_id
+    // }, '15s')
+    const userAcces = {
+      acces_token: null,
+      user_id: requestBody.user_id
+    } as accessAtributes
+    await accessModel.create(userAcces)
 
     const response = ResponseData.default
     response.data = { message: 'success' }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { type Response } from 'express'
 import { userModel, type userAtributes } from '../../models/userModel'
 import { RequestChecker } from '../../utilities/requestChecker'
@@ -6,7 +7,8 @@ import { StatusCodes } from 'http-status-codes'
 import { CONSOLE } from '../../utilities/log'
 import { Op } from 'sequelize'
 import { comaparePassword } from '../../utilities/comparePassword'
-import { generateAccessToken, verifyAccessToken } from '../../utilities/jwt'
+import { generateAccessToken } from '../../utilities/jwt'
+import { accessModel } from '../../models/accessModel'
 
 export const loginController = async function (req: any, res: Response): Promise<any> {
   const requestBody = req.body as userAtributes
@@ -47,15 +49,40 @@ export const loginController = async function (req: any, res: Response): Promise
       const response = ResponseData.error(message)
       return res.status(StatusCodes.UNAUTHORIZED).json(response)
     }
+    const access = await accessModel.findOne({
+      // raw: true,
+      where: {
+        user_id: { [Op.like]: result.user_id }
+      }
+
+    })
 
     const token = generateAccessToken({
       userId: result.user_id,
-      role: 'Admin'
+      role: access?.role
     }, '180s')
 
-    const jwtpayload = verifyAccessToken(token)
-    console.log(jwtpayload)
-    return res.json(token)
+    const refresToken = generateAccessToken({
+      userId: result.user_id,
+      role: access?.role
+    }, '1d')
+
+    await access?.update({ acces_token: refresToken })
+
+    res.cookie('refresToken', refresToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000
+    })
+
+    const response = ResponseData.default
+    response.data = {
+      message: 'login success',
+      data: {
+        user_id: result.user_id,
+        access_token: token
+      }
+    }
+    return res.status(StatusCodes.OK).json(response)
   } catch (error: any) {
     CONSOLE.error(error.message)
 
