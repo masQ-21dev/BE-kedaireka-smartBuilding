@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+
 dotenv.config()
 
 export const CONFIG = {
@@ -15,7 +16,8 @@ export const CONFIG = {
     passwordEncryption: process.env.SECRET_PASSWORD_ENCRYPTION,
     pinEncryption: process.env.SECRET_PIN_ENCRYPTION,
     token: process.env.TOKEN_SECRET,
-    refressToken: process.env.REFRESTOKEN_SECRET
+    refressToken: process.env.REFRESTOKEN_SECRET,
+    emailVerification: process.env.EMAIL_VERIFICATION_SECRET
   },
   authorization: {
     username: process.env.AUTHORIZATION_USERNAME,
@@ -47,5 +49,11 @@ export const CONFIG = {
       dialect: process.env.DB_DIALECT,
       logging: process.env.DB_LOG === 'true'
     }
+  },
+  smtp: {
+    host: process.env.VERIFICATION_HOST,
+    port: process.env.VERIFICATION_PORT,
+    email: process.env.VERIFICATION_EMIAL,
+    password: process.env.VERIFICATION_EMIAL_PASSWORD
   }
 }

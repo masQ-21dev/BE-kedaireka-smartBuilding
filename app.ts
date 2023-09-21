@@ -14,6 +14,7 @@ const cors = require('cors')
 dotenv.config()
 
 const app: Express = express()
+process.env.TZ = 'Asia/jakarta'
 const port = CONFIG.port
 
 app.use(cors({ origin: true, credentials: true }))

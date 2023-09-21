@@ -22,9 +22,13 @@ export const authRouter = (app: Express) => {
     async (req: Request, res: Response) => await authControler.login(req, res)
   )
 
-  route.post(
+  route.get(
     '/verifiemail',
-    async (req: Request, res: Response) => await authControler.verifiEmail(req, res)
+    async (req: Request, res: Response) => await authControler.verifyEmail(req, res)
+  )
+  route.post(
+    '/request_verification',
+    async (req: Request, res: Response) => await authControler.requestVerifyEmail(req, res)
   )
 
   route.get(

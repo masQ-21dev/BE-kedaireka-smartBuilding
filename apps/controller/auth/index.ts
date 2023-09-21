@@ -1,4 +1,4 @@
-import { emailVerifiController } from './emailVerifi'
+import { emailVerifiController, requestEmailVerivicattion } from './emailVerifi'
 import { loginController } from './login'
 import { refressToken } from './refressToken'
 import { registerControler } from './register'
@@ -6,6 +6,7 @@ import { registerControler } from './register'
 export const authControler = {
   register: registerControler,
   login: loginController,
-  verifiEmail: emailVerifiController,
+  verifyEmail: emailVerifiController,
+  requestVerifyEmail: requestEmailVerivicattion,
   refressToken
 }

@@ -15,7 +15,7 @@ export const removeExcampleCrud = async function (req: any, res: Response): Prom
   })
 
   if (emptyfield.length > 0) {
-    const message = `unable to process request! error( ${emptyfield})`
+    const message = `unable to process request! error( ${emptyfield} )`
     const response = ResponseData.error(message)
     return res.status(StatusCodes.BAD_REQUEST).json(response)
   }
