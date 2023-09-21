@@ -1,9 +1,11 @@
 import { emailVerifiController } from './emailVerifi'
 import { loginController } from './login'
+import { refressToken } from './refressToken'
 import { registerControler } from './register'
 
 export const authControler = {
   register: registerControler,
   login: loginController,
-  verifiEmail: emailVerifiController
+  verifiEmail: emailVerifiController,
+  refressToken
 }

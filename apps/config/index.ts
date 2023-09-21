@@ -14,7 +14,8 @@ export const CONFIG = {
     keyEncryption: process.env.SECRET_KEY_ENCRYPTION,
     passwordEncryption: process.env.SECRET_PASSWORD_ENCRYPTION,
     pinEncryption: process.env.SECRET_PIN_ENCRYPTION,
-    token: process.env.TOKEN_SECRET
+    token: process.env.TOKEN_SECRET,
+    refressToken: process.env.REFRESTOKEN_SECRET
   },
   authorization: {
     username: process.env.AUTHORIZATION_USERNAME,

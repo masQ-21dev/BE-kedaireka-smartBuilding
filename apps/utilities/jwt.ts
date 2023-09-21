@@ -7,7 +7,7 @@ export interface jwtPayloadInterface {
   role: string | undefined
 }
 
-export const generateAccessToken = (username: jwtPayloadInterface, expiresIn: string): any => {
+export const generateAccessToken = (username: jwtPayloadInterface, secretToken: any, expiresIn: string): any => {
   return jwt.sign(username, CONFIG.secret.token ?? '', {
     expiresIn
   })

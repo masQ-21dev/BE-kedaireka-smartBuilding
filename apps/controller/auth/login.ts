@@ -9,6 +9,7 @@ import { Op } from 'sequelize'
 import { comaparePassword } from '../../utilities/comparePassword'
 import { generateAccessToken } from '../../utilities/jwt'
 import { accessModel } from '../../models/accessModel'
+import { CONFIG } from '../../config'
 
 export const loginController = async function (req: any, res: Response): Promise<any> {
   const requestBody = req.body as userAtributes
@@ -60,12 +61,12 @@ export const loginController = async function (req: any, res: Response): Promise
     const token = generateAccessToken({
       userId: result.user_id,
       role: access?.role
-    }, '180s')
+    }, CONFIG.secret.token, '180s')
 
     const refresToken = generateAccessToken({
       userId: result.user_id,
       role: access?.role
-    }, '1d')
+    }, CONFIG.secret.refressToken, '1d')
 
     await access?.update({ acces_token: refresToken })
 
@@ -77,10 +78,7 @@ export const loginController = async function (req: any, res: Response): Promise
     const response = ResponseData.default
     response.data = {
       message: 'login success',
-      data: {
-        user_id: result.user_id,
-        access_token: token
-      }
+      access_token: token
     }
     return res.status(StatusCodes.OK).json(response)
   } catch (error: any) {

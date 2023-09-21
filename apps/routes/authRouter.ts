@@ -26,4 +26,9 @@ export const authRouter = (app: Express) => {
     '/verifiemail',
     async (req: Request, res: Response) => await authControler.verifiEmail(req, res)
   )
+
+  route.get(
+    '/refress_token',
+    async (req: Request, res: Response) => await authControler.refressToken(req, res)
+  )
 }
