@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { type Response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
@@ -9,6 +10,10 @@ import { StatusCodes } from 'http-status-codes'
 import { CONSOLE } from '../../utilities/log'
 import { hashPasword } from '../../utilities/scurePassword'
 import { type accessAtributes, accessModel } from '../../models/accessModel'
+import { generateToken } from '../../utilities/jwt'
+import { CONFIG } from '../../config'
+import { verifyEmailTemplate } from '../../templetes'
+import MailService from '../../utilities/mailService'
 
 export const registerControler = async function (req: any, res: Response): Promise<any> {
   const requestBody = req.body as userAtributes
@@ -50,8 +55,25 @@ export const registerControler = async function (req: any, res: Response): Promi
     } as accessAtributes
     await accessModel.create(userAcces)
 
+    const token = generateToken({ id: requestBody.user_id }, CONFIG.secret.emailVerification, '1d')
+    console.log(token)
+
+    // link for verivicartion
+    const link = `${CONFIG.appUrl}:${CONFIG.port}/api/v2/auth/verifiemail?id=${token}`
+    // templeting email
+    const emailTemplate = verifyEmailTemplate(link)
+    // sending email
+    const mailService = MailService.getInstance()
+    mailService.sendEmail(req.headers['X-Request-Id'], {
+      from: CONFIG.smtp.email,
+      to: requestBody.user_email,
+      subject: 'Email Verify',
+      html: emailTemplate.html,
+      text: emailTemplate.text
+    })
+
     const response = ResponseData.default
-    response.data = { message: 'success' }
+    response.data = { message: 'success', link }
     return res.status(StatusCodes.CREATED).json(response)
   } catch (error: any) {
     CONSOLE.error(error.message)

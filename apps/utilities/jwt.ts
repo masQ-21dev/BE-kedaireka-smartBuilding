@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import jwt from 'jsonwebtoken'
-import { CONFIG } from '../config'
 
 export interface jwtPayloadInterface {
   userId: string
@@ -8,7 +7,13 @@ export interface jwtPayloadInterface {
 }
 
 export const generateAccessToken = (username: jwtPayloadInterface, secretToken: any, expiresIn: string): any => {
-  return jwt.sign(username, CONFIG.secret.token ?? '', {
+  return jwt.sign(username, secretToken, {
+    expiresIn
+  })
+}
+export const generateToken = (user: { id: any }, secretToken: any, expiresIn: string): any => {
+  console.log('ini masalah 2')
+  return jwt.sign(user, secretToken, {
     expiresIn
   })
 }

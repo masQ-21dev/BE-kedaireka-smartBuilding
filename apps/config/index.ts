@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const CONFIG = {
+  appName: process.env.APP_NAME,
   appVersion: process.env.APP_VERSION,
   appSemantic: process.env.APP_SEMANTIC,
   appMode: process.env.APP_MODE ?? 'development',
