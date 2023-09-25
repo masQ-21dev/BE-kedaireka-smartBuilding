@@ -9,7 +9,7 @@ import { Op } from 'sequelize'
 import { CONSOLE } from '../../utilities/log'
 import { userModel } from '../../models/userModel'
 import { verifyEmailTemplate } from '../../templetes'
-import MailService from '../../utilities/mailService'
+import MailService from '../../services/mailService'
 // import { CONFIG } from '../../config'
 
 export const emailVerifiController = async function (req: any, res: Response): Promise<any> {
@@ -94,7 +94,7 @@ export const requestEmailVerivicattion = async function (req: any, res: Response
     }
 
     // token email verification
-    const token = generateToken({ id: userAcunt.user_id }, CONFIG.secret.emailVerification, '1d')
+    const token = generateToken({ id: userAcunt.user_id }, CONFIG.secret.emailVerification, '1h')
     console.log(token)
 
     // link for verivicartion

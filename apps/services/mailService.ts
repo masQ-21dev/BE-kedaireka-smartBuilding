@@ -5,7 +5,7 @@
 import nodemailer from 'nodemailer'
 // import { transporter } from './transporter'
 import { CONFIG } from '../config'
-import { CONSOLE } from './log'
+import { CONSOLE } from '../utilities/log'
 
 const hostConfig = CONFIG.smtp.host as string || 'smtp.gmail.com'
 const portConfig: number = parseInt((CONFIG.smtp.port as string)) || 465

@@ -13,7 +13,7 @@ import { type accessAtributes, accessModel } from '../../models/accessModel'
 import { generateToken } from '../../utilities/jwt'
 import { CONFIG } from '../../config'
 import { verifyEmailTemplate } from '../../templetes'
-import MailService from '../../utilities/mailService'
+import MailService from '../../services/mailService'
 
 export const registerControler = async function (req: any, res: Response): Promise<any> {
   const requestBody = req.body as userAtributes
