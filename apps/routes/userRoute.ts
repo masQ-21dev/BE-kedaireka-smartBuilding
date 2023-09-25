@@ -12,7 +12,7 @@ export const userRoutes = (app: Express) => {
   )
 
   route.get(
-    '/:id',
+    '/detail/:user_id',
     async (req: Request, res: Response) => await userController.findOne(req, res)
   )
 
