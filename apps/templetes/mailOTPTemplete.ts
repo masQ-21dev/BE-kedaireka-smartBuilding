@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+import { CONFIG } from '../config'
+
+interface otpMailVerifyAtributes {
+  html: string
+  text: string
+}
+
+export const otpMailVerify = function (otp: string): otpMailVerifyAtributes {
+  const html = `
+  <!DOCTYPE html>
     <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
     <head>
@@ -7,16 +16,13 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
-      <title>Reset your Password</title>
+      <title>Verification email address</title>
       <link
         href="https://fonts.googleapis.com/css?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700"
         rel="stylesheet" media="screen">
       <style>
         .hover-underline:hover {
           text-decoration: underline !important;
-        }
-        * {
-          border:  1px solid;
         }
 
         @keyframes spin {
@@ -93,31 +99,30 @@
                   </td>
                 </tr>
                 <tr>
-                  <td align="center" class="sm-px-24" style="font-family: 'Montserrat',Arial,sans-serif;">
-                    <!-- copy sini -->
-                    <table style="font-family: 'Montserrat',Arial,sans-serif; width: 100%; background-color: #1C5F7B; border-radius: 20px ;" width="100%" cellpadding="0"
+                  <td align="center" class="sm-px-24" style="font-family: 'Montserrat',Arial,sans-serif; background-color: #1C5F7B; border-radius: 20px;">
+                    <table style="font-family: 'Montserrat',Arial,sans-serif; width: 100%;" width="100%; background-color: #1C5F7B; border-radius: 20px;" cellpadding="0"
                       cellspacing="0" role="presentation">
                       <tr>
                         <td class="sm-px-24" style=" --bg-opacity: 0.3;  background-color: #1C5F7B; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 14px; line-height: 24px; padding-bottom: 40px; padding-top: 20px; border-radius: 20px 20px 0 0; text-align: center;">
-                            <span style="font-weight: 800; font-size: 32px; line-height: normal; margin-bottom: 0; color: #eceff1;">FEMS</span>
+                            <span style="font-weight: 800; font-size: 32px; line-height: normal; margin-bottom: 0; color: #eceff1;">${CONFIG.appName}</span>
                         </td>
                       </tr>
                       <tr>
                         <td class="sm-px-24"
-                          style="--bg-opacity: 1;  background-color: #ffffff;  border-radius: 20px 20px  20px 20px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 14px; line-height: 24px; padding: 48px; text-align: left; --text-opacity: 1; color: #626262;"
+                          style="--bg-opacity: 1; transform: translateY(-20px); background-color: #ffffff;  border-radius: 20px 20px  20px 20px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 14px; line-height: 24px; padding: 48px; text-align: left; --text-opacity: 1; color: #626262;"
                            align="left">
                           <p style="font-weight: 600; font-size: 18px; margin-bottom: 0;">Hey there,</p>
 
                           <p style="margin: 0 0 24px;">
-                            Please click the button bellow to confirm your emial address.
+                            Your OTP (One-Time Password) for password reset.
                           </p>
-
+                          
                           <table cellpadding="0" style="width: 100%;"
                           cellspacing="0" role="presentation">
                             <tr >
                               <td align="center" style="padding: 10px 0;">
                                 <span style="font-size: 32px; margin: 10px 0; padding: 10px 0; font-weight: bolder;">${otp}</span>
-                                <!-- <a style="display: inline-block; background: #1c5e7b; padding: 10px 20px; border-radius: 10px; text-decoration: none; cursor: pointer; color: white;" href="">Verify Email Address</a> -->
+            
                               </td>
                             </tr>
                           </table>
@@ -131,10 +136,10 @@
                               </td>
                             </tr>
                           </table>
-                    
-                    <p style="margin: 24px 0 0 0; ">
-                      if you did not create account with thia email address, just ignore this email.
-                    </p>
+                          
+                          <p style="margin: 24px 0 0 0; ">
+                            This code is valid for 1 minute
+                          </p>
                           <table style="font-family: 'Montserrat',Arial,sans-serif; width: 100%;" width="100%"
                             cellpadding="0" cellspacing="0" role="presentation">
                             <tr>
@@ -146,31 +151,26 @@
                               </td>
                             </tr>
                           </table>
-                          <!-- <p style="margin: 0 0 16px;">
-                            if you're having trouble clicking the "Verify Email Address" button, copy and paste the URL bellow into your browser.
-                            <a href="" class="hover-underline"
-                              style="--text-opacity: 1; color: #7367f0;  text-decoration: none;">link</a>.
-                          </p> -->
-                          <p style="margin: 0 0 16px;">Thanks, <br>The FEMS Support Team</p>
+      
+                          <p style="margin: 0 0 16px;">Thanks, <br>The ${CONFIG.appName} Support Team</p>
                         </td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: 'Montserrat',Arial,sans-serif; height: 20px;" height="20"></td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: 'Montserrat',Arial,sans-serif; height: 16px;" height="16"></td>
                       </tr>
                     </table>
                   </td>
                 </tr>
-
-                <!-- copy sini -->
                 <tr>
                   <td style="font-family: 'Montserrat',Arial,sans-serif; height: 20px;" height="20"></td>
                 </tr>
                 <tr>
                   <td style="font-family: 'Montserrat',Arial,sans-serif; height: 20px;" height="20"></td>
                 </tr>
-                <tr>
-                  <td style="font-family: 'Montserrat',Arial,sans-serif; height: 20px;" height="20"></td>
-                </tr>
-                <tr>
-                  <td style="font-family: 'Montserrat',Arial,sans-serif; height: 20px;" height="20"></td>
-                </tr>
+                
               </table>
             </td>
           </tr>
@@ -179,3 +179,11 @@
     </body>
 
     </html>`
+  const text = `
+        Verify Email, A request to create your ${CONFIG.appName} account was received.
+        Use this OTP to confirm your account and log in`
+  return {
+    html,
+    text
+  }
+}

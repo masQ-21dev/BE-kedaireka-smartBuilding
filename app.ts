@@ -14,8 +14,9 @@ const cors = require('cors')
 dotenv.config()
 
 const app: Express = express()
-process.env.TZ = 'Asia/jakarta'
 const port = CONFIG.port
+
+process.env.TZ = 'Asia/jakarta'
 
 app.use(cors({ origin: true, credentials: true }))
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))

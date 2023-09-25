@@ -6,6 +6,7 @@ import { StatusCodes } from 'http-status-codes'
 import { CONSOLE } from '../utilities/log'
 import { authRouter } from './authRoute'
 import { userRoutes } from './userRoute'
+import { resetPasswordRoute } from './resetPasswordRoute'
 
 export const appRouterV2 = async (app: Express): Promise<any> => {
   app.get(
@@ -31,4 +32,5 @@ export const appRouterV2 = async (app: Express): Promise<any> => {
   excampleCRUDRoutes(app)
   authRouter(app)
   userRoutes(app)
+  resetPasswordRoute(app)
 }
