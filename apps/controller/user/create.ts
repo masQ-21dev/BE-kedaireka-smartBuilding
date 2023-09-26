@@ -8,7 +8,7 @@ import { CONSOLE } from '../../utilities/log'
 import { Op } from 'sequelize'
 import { hashPasword } from '../../utilities/scurePassword'
 
-export const creat = async function (req: any, res: Response): Promise<any> {
+export const createUser = async function (req: any, res: Response): Promise<any> {
   const requestBody = req.body as userAtributes
 
   const emptyfield = RequestChecker({
