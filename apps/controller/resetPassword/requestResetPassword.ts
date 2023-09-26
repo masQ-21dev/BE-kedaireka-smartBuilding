@@ -29,13 +29,20 @@ export const requestResetPassword = async function (req: any, res: Response): Pr
       where: {
         deleted_at: { [Op.eq]: 0 },
         user_email: { [Op.like]: requestQuery.email }
-      }
+      },
+      attributes: ['user_email']
     })
     if (emailChecker == null) {
       const message = `Email ${requestQuery.email} not registered, Please register first !`
       const response = ResponseData.error(message)
       return res.status(StatusCodes.BAD_REQUEST).json(response)
     }
+
+    await otpModels.destroy({
+      where: {
+        email: { [Op.like]: requestQuery.email }
+      }
+    })
 
     const otp = otpGenerator.generate(6, {
       specialChars: false,
@@ -53,16 +60,17 @@ export const requestResetPassword = async function (req: any, res: Response): Pr
     void mailService.sendEmail(req.headers['X-Request-Id'], {
       from: CONFIG.smtp.email,
       to: requestQuery.email,
-      subject: 'Email Verify',
+      subject: 'Reset Password OTP Code',
       html: mailTemplate.html,
       text: mailTemplate.text
     })
 
-    return res.send(mailTemplate.html)
-
-    // const response = ResponseData.default
-    // response.data = { message: 'otp code has sended to your email address' }
-    // return res.status(StatusCodes.OK).json(response)
+    const response = ResponseData.default
+    response.data = {
+      message: 'otp code has sended to your email address',
+      otp
+    }
+    return res.status(StatusCodes.OK).json(response)
   } catch (error: any) {
     CONSOLE.error(error.message)
 
