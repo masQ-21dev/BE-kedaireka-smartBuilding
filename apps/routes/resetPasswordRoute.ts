@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express, { type Express, type Request, type Response } from 'express'
 import { resetPasswordController } from '../controller'
+import { middelware } from '../middelware'
 
 export const resetPasswordRoute = (app: Express) => {
   const route = express.Router()
@@ -15,5 +16,11 @@ export const resetPasswordRoute = (app: Express) => {
   route.post(
     '/verify',
     async (req: Request, res: Response) => await resetPasswordController.verify(req, res)
+  )
+
+  route.patch(
+    '/',
+    middelware.userAuthorization,
+    async (req: Request, res: Response) => await resetPasswordController.resetPassword(req, res)
   )
 }

@@ -6,6 +6,8 @@ import { StatusCodes } from 'http-status-codes'
 import { Op } from 'sequelize'
 import { CONSOLE } from '../../utilities/log'
 import { userModel } from '../../models/userModel'
+import { generateAccessToken } from '../../utilities/jwt'
+import { CONFIG } from '../../config'
 
 export const verifyOtp = async function (req: any, res: Response): Promise<any> {
   const requestQuery = req.query as otpAtributes
@@ -57,8 +59,13 @@ export const verifyOtp = async function (req: any, res: Response): Promise<any> 
       return res.status(StatusCodes.UNAUTHORIZED).json(response)
     }
 
+    const token = generateAccessToken({ userId: userData.user_id, role: 'admin' }, CONFIG.secret.token, '10m')
+
+    console.log(token)
+
     const message = {
-      otpData
+      otpData,
+      token
     }
     const response = ResponseData.default
     response.data = message
