@@ -11,4 +11,9 @@ export const resetPasswordRoute = (app: Express) => {
     '/',
     async (req: Request, res: Response) => await resetPasswordController.request(req, res)
   )
+
+  route.post(
+    '/verify',
+    async (req: Request, res: Response) => await resetPasswordController.verify(req, res)
+  )
 }

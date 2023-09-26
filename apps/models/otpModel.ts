@@ -31,7 +31,7 @@ export const otpModels = sequelize.define<otpInstance>(
     tokenexpires: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Date.now() + 43200
+      defaultValue: Date.now() + (10 * 60 * 1000)
     }
   },
   {
