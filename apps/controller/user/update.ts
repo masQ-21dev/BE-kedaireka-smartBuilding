@@ -10,7 +10,7 @@ export const updateUser = async function (req: any, res: Response): Promise<any>
   const requestBody = req.body as userAtributes
 
   const emptyfield = RequestChecker({
-    requireList: ['user_id'],
+    requireList: ['  '],
     requestData: requestBody
   })
 

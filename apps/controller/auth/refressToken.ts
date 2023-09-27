@@ -5,6 +5,7 @@ import { StatusCodes } from 'http-status-codes'
 import { accessModel } from '../../models/accessModel'
 import { type jwtPayloadInterface, verifyAccessToken, generateAccessToken } from '../../utilities/jwt'
 import { CONFIG } from '../../config'
+import { userModel } from '../../models/userModel'
 
 export const refressToken = async function (req: any, res: Response): Promise<any> {
   try {
@@ -21,18 +22,22 @@ export const refressToken = async function (req: any, res: Response): Promise<an
       return res.status(StatusCodes.UNAUTHORIZED).json(response)
     }
 
-    const userAcces = await accessModel.findOne({
+    const userAcces = await userModel.findOne({
       raw: true,
-      where: {
-        acces_token: cookieRefressToken
+      attributes: ['user_id', 'role'],
+      include: {
+        model: accessModel,
+        attributes: ['acces_token'],
+        where: {
+          acces_token: cookieRefressToken
+        },
+        as: 'access'
       }
     })
     if (userAcces == null || dataToken.userId !== userAcces.user_id || dataToken.role !== userAcces.role) {
       const response = ResponseData.error('Missing Authorization.')
       return res.status(StatusCodes.UNAUTHORIZED).json(response)
     }
-
-    console.log(userAcces)
 
     const newToken = generateAccessToken({ userId: userAcces.user_id, role: userAcces.role }, CONFIG.secret.token, '180s')
 

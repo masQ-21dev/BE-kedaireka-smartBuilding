@@ -25,6 +25,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      role: {
+        type: Sequelize.ENUM('User', 'Admin', 'Super Admin'),
+        defaultValue: 'User'
+      },
       email_verified: {
         type: Sequelize.TINYINT,
         allowNull: false,

@@ -27,10 +27,13 @@ export const loginController = async function (req: any, res: Response): Promise
 
   try {
     const result = await userModel.findOne({
-      raw: true,
       where: {
         deleted_at: { [Op.eq]: 0 },
         user_email: { [Op.like]: requestBody.user_email }
+      },
+      include: {
+        model: accessModel,
+        as: 'access'
       }
     })
 
@@ -50,25 +53,22 @@ export const loginController = async function (req: any, res: Response): Promise
       const response = ResponseData.error(message)
       return res.status(StatusCodes.UNAUTHORIZED).json(response)
     }
-    const access = await accessModel.findOne({
-      // raw: true,
-      where: {
-        user_id: { [Op.like]: result.user_id }
-      }
-
-    })
 
     const token = generateAccessToken({
       userId: result.user_id,
-      role: access?.role
+      role: result.role
     }, CONFIG.secret.token, '180s')
 
     const refresToken = generateAccessToken({
       userId: result.user_id,
-      role: access?.role
+      role: result.role
     }, CONFIG.secret.refressToken, '1d')
 
-    await access?.update({ acces_token: refresToken })
+    await accessModel.update({ acces_token: refresToken }, {
+      where: {
+        user_id: result.user_id
+      }
+    })
 
     res.cookie('refresToken', refresToken, {
       httpOnly: true,

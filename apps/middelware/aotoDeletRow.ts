@@ -7,7 +7,6 @@ import { Op } from 'sequelize'
 
 export const autoDeleteRow = async function (req: any, res: Response, next: NextFunction): Promise<any> {
   try {
-    console.log(new Date(Date.now()))
     await otpModels.destroy({
       where: {
         tokenexpires: { [Op.lte]: new Date(Date.now()) }

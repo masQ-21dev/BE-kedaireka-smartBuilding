@@ -11,10 +11,6 @@ module.exports = {
         primaryKey: true,
         allowNull: false
       },
-      role: {
-        type: Sequelize.ENUM('Admin', 'Super Admin'),
-        defaultValue: 'Admin'
-      },
       acces_token: {
         type: Sequelize.STRING,
         allowNull: true
@@ -22,8 +18,6 @@ module.exports = {
       user_id: {
         type: Sequelize.UUID,
         allowNull: false
-
-        // defaultValue: Sequelize.UUIDV4
       },
       remember_me: {
         type: Sequelize.TINYINT,

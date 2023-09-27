@@ -1,13 +1,14 @@
 import { type Model, type Optional, UUIDV4, DataTypes } from 'sequelize'
 import { sequelize } from '.'
 import { type baseAtributes, baseModel } from './baseModel'
-import { accessModel } from './accessModel'
+import { type accessAtributes, accessModel } from './accessModel'
 
 export interface userAtributes extends baseAtributes {
   user_id: string
   user_name: string
   user_email: string
   password: string
+  role: string
   email_verified: number
 }
 
@@ -18,7 +19,9 @@ userAtributes,
 
 interface userInstance
   extends Model<userAtributes, userCreationAtributes>,
-  userAtributes {}
+  userAtributes {
+  access: accessAtributes
+}
 
 export const userModel = sequelize.define<userInstance>(
   'user_table',
@@ -27,7 +30,8 @@ export const userModel = sequelize.define<userInstance>(
     user_id: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: UUIDV4()
+      defaultValue: UUIDV4(),
+      unique: true
     },
     user_name: {
       type: DataTypes.STRING,
@@ -36,11 +40,14 @@ export const userModel = sequelize.define<userInstance>(
     user_email: {
       type: DataTypes.STRING,
       allowNull: false
-
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    role: {
+      type: DataTypes.ENUM('User', 'Admin', 'Super Admin'),
+      defaultValue: 'Admin'
     },
     email_verified: {
       type: DataTypes.TINYINT,
@@ -59,6 +66,5 @@ export const userModel = sequelize.define<userInstance>(
     engine: 'InnoDB'
   }
 )
-
-userModel.hasOne(accessModel, { foreignKey: 'user_id' })
-accessModel.belongsTo(userModel, { foreignKey: 'user_id' })
+userModel.hasOne(accessModel, { foreignKey: 'user_id', sourceKey: 'user_id', as: 'access' })
+accessModel.belongsTo(userModel, { foreignKey: 'user_id', as: 'access' })

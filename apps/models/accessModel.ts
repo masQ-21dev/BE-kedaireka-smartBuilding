@@ -1,12 +1,12 @@
 import { type Model, DataTypes } from 'sequelize'
 import { sequelize } from '.'
+import { userModel } from './userModel'
 
 export interface accessAtributes {
-  id: number
-  role: string
-  acces_token: string | null
+  id?: number
+  acces_token?: string | null
   user_id: string
-  remember_me: number
+  remember_me?: number
 }
 
 interface accessInstance extends Model<accessAtributes>, accessAtributes {}
@@ -20,10 +20,6 @@ export const accessModel = sequelize.define<accessInstance>(
       primaryKey: true,
       allowNull: false
     },
-    role: {
-      type: DataTypes.ENUM('Admin', 'Super Admin'),
-      defaultValue: 'Admin'
-    },
     acces_token: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -31,8 +27,11 @@ export const accessModel = sequelize.define<accessInstance>(
     },
     user_id: {
       type: DataTypes.UUID,
-      allowNull: false
-
+      allowNull: false,
+      references: {
+        model: userModel,
+        key: 'user_id'
+      }
     },
     remember_me: {
       type: DataTypes.TINYINT,
@@ -45,6 +44,7 @@ export const accessModel = sequelize.define<accessInstance>(
     timestamps: false,
     tableName: 'access_table',
     deletedAt: false,
+    paranoid: true,
     freezeTableName: true,
     underscored: true,
     engine: 'InnoDB'

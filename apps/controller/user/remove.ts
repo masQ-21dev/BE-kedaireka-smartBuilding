@@ -26,6 +26,7 @@ export const removeUser = async function (req: any, res: Response): Promise<any>
         deleted_at: { [Op.eq]: 0 },
         user_id: { [Op.eq]: requestQuery.user_id }
       }
+
     })
 
     if (result == null) {
