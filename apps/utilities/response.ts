@@ -7,6 +7,7 @@ export interface ResponseDataAtributes {
   error_message: any | null
   data: any
   next: any | null
+  user: any | null
   date: any
   version: any | null
 }
@@ -20,6 +21,7 @@ export const ResponseData = {
       error_message: message,
       data: null,
       next: '',
+      user: '',
       date: new Date(Date.now()),
       version: { code: CONFIG.appVersion, name: CONFIG.appSemantic }
     } as ResponseDataAtributes
@@ -30,6 +32,7 @@ export const ResponseData = {
     error_message: null,
     data: null,
     next: '',
+    user: '',
     date: new Date(Date.now()),
     version: { code: CONFIG.appVersion, name: CONFIG.appSemantic }
   } as ResponseDataAtributes

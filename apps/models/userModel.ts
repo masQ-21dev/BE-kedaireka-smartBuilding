@@ -47,7 +47,7 @@ export const userModel = sequelize.define<userInstance>(
     },
     role: {
       type: DataTypes.ENUM('User', 'Admin', 'Super Admin'),
-      defaultValue: 'Admin'
+      defaultValue: 'User'
     },
     email_verified: {
       type: DataTypes.TINYINT,

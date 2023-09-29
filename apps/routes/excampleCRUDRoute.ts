@@ -7,7 +7,7 @@ import { middelware } from '../middelware'
 
 export const excampleCRUDRoutes = (app: Express) => {
   const route = express.Router()
-  app.use('/api/v2/excample-crud', middelware.userAuthorization, route)
+  app.use('/api/v2/excample-crud', middelware.userAuthorization, middelware.isAdmin, route)
 
   route.get(
     '/',

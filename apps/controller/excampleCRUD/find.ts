@@ -6,9 +6,10 @@ import { ResponseData } from '../../utilities/response'
 import { StatusCodes } from 'http-status-codes'
 import { CONSOLE } from '../../utilities/log'
 import { RequestChecker } from '../../utilities/requestChecker'
+import { type jwtPayloadInterface } from '../../utilities/jwt'
 
 export const findAllExcampleCrud = async function (req: any, res: Response): Promise<any> {
-  const user = req.user
+  const user = req.user as jwtPayloadInterface
   console.log(user)
   try {
     const page = new Pagination(
@@ -29,7 +30,6 @@ export const findAllExcampleCrud = async function (req: any, res: Response): Pro
         offset: page.offset
       })
     })
-
     const response = ResponseData.default
     response.data = page.data(result)
     return res.status(StatusCodes.OK).json(response)

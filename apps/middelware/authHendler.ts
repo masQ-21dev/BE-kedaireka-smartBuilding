@@ -11,16 +11,20 @@ export const userAuthorization = async (req: any, res: Response, next: NextFunct
     const authheder = req.header('authorization')
     const token = authheder?.split(' ')[1]
     if (token == null) {
+      console.log('masalah')
       const response = ResponseData.error('Missing Authorization.')
       return res.status(StatusCodes.UNAUTHORIZED).json(response)
     }
     const result = verifyAccessToken(token, CONFIG.secret.token) as jwtPayloadInterface
     if (result == null) {
+      console.log('masalah 3')
       const response = ResponseData.error('Missing Authorization.')
       return res.status(StatusCodes.UNAUTHORIZED).json(response)
     }
     req.user = result
     // res.data(result)
+
+    res.set('user', result.userId)
     next()
   } catch (error: any) {
     CONSOLE.error(error.message)
