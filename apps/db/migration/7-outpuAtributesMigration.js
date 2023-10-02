@@ -1,36 +1,36 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 'use strict'
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('sensor_table', {
+    await queryInterface.createTable('output_atribute', {
       id: {
         type: Sequelize.BIGINT,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       },
-      sensor_name: {
+      atribute_name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
-      device_id: {
-        type: Sequelize.UUID,
-        allowNull: false
+      atribute_value: {
+        type: Sequelize.STRING,
+        allowNull: true
       },
-      sensor_type: {
-        type: Sequelize.ENUM('input', 'output'),
-        defaultValue: 'input'
+      sensor_id: {
+        type: Sequelize.BIGINT,
+        allowNull: false
       }
+
     })
       .then(async () => {
-        await queryInterface.addConstraint('sensor_table', {
-          fields: ['device_id'],
+        await queryInterface.addConstraint('output_atribute', {
+          fields: ['sensor_id'],
           type: 'foreign key',
           references: {
-            table: 'device_table',
-            field: 'device_id'
+            table: 'sensor_table',
+            field: 'id'
           },
           onDelete: 'cascade',
           onUpdate: 'cascade'
@@ -39,6 +39,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('sensor_table')
+    await queryInterface.dropTable('output_atribute')
   }
 }
