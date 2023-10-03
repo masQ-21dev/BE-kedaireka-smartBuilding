@@ -6,7 +6,10 @@ import { middelware } from '../middelware'
 
 export const resetPasswordRoute = (app: Express) => {
   const route = express.Router()
-  app.use('/api/v2/reset_password', route)
+  // app.use(
+  //   async (req: Request, res: Response, next: NextFunction) => await middelware.autoDeleteRow(req, res, next)
+  // )
+  app.use('/api/v2/reset_password', middelware.autoDeleteRow, route)
 
   route.post(
     '/',

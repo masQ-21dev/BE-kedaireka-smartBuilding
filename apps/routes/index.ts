@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { type NextFunction, type Express, type Request, type Response } from 'express'
+import { type Express, type Request, type Response } from 'express'
 import { excampleCRUDRoutes } from './excampleCRUDRoute'
 import { ResponseData } from '../utilities/response'
 import { StatusCodes } from 'http-status-codes'
@@ -7,12 +7,9 @@ import { CONSOLE } from '../utilities/log'
 import { authRouter } from './authRoute'
 import { userRoutes } from './userRoute'
 import { resetPasswordRoute } from './resetPasswordRoute'
-import { middelware } from '../middelware'
+import { payloadRoute } from './payloadRoute'
 
 export const appRouterV2 = async (app: Express): Promise<any> => {
-  app.use(
-    async (req: Request, res: Response, next: NextFunction) => await middelware.autoDeleteRow(req, res, next)
-  )
   app.get(
     '/api/v2',
     async (req: Request, res: Response) => {
@@ -37,4 +34,5 @@ export const appRouterV2 = async (app: Express): Promise<any> => {
   authRouter(app)
   userRoutes(app)
   resetPasswordRoute(app)
+  payloadRoute(app)
 }
