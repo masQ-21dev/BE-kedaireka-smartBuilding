@@ -1,7 +1,8 @@
 import { createDevice } from './create'
-import { findAllDevice } from './find'
+import { findAllDevice, findOneByDeviceId } from './find'
 
 export const deviceCobtroller = {
   findAll: findAllDevice,
+  findOne: findOneByDeviceId,
   create: createDevice
 }

@@ -13,6 +13,11 @@ export const deviceRouter = (app: Express) => {
     async (req: Request, res: Response) => await deviceCobtroller.findAll(req, res)
   )
 
+  route.get(
+    '/detail/:id',
+    async (req: Request, res: Response) => await deviceCobtroller.findOne(req, res)
+  )
+
   route.post(
     '/',
     async (req: Request, res: Response) => await deviceCobtroller.create(req, res)

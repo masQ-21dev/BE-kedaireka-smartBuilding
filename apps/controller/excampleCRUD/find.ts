@@ -53,7 +53,7 @@ export const findOneexcampleCrud = async function (req: any, res: Response): Pro
   if (emptyfield.length > 0) {
     const message = `unable to process request! error( ${emptyfield})`
     const response = ResponseData.error(message)
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+    return res.status(StatusCodes.BAD_REQUEST).json(response)
   }
 
   try {
