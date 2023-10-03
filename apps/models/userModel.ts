@@ -2,6 +2,7 @@ import { type Model, type Optional, UUIDV4, DataTypes } from 'sequelize'
 import { sequelize } from '.'
 import { type baseAtributes, baseModel } from './baseModel'
 import { type accessAtributes, accessModel } from './accessModel'
+import { type deviceAtributes, deviceModel } from './device/deviceModel'
 
 export interface userAtributes extends baseAtributes {
   user_id: string
@@ -21,6 +22,7 @@ interface userInstance
   extends Model<userAtributes, userCreationAtributes>,
   userAtributes {
   access: accessAtributes
+  device: deviceAtributes
 }
 
 export const userModel = sequelize.define<userInstance>(
@@ -68,3 +70,6 @@ export const userModel = sequelize.define<userInstance>(
 )
 userModel.hasOne(accessModel, { foreignKey: 'user_id', sourceKey: 'user_id', as: 'access' })
 accessModel.belongsTo(userModel, { foreignKey: 'user_id', as: 'access' })
+
+userModel.hasMany(deviceModel, { foreignKey: 'user_id', sourceKey: 'user_id', as: 'device' })
+deviceModel.belongsTo(userModel, { foreignKey: 'user_id', as: 'device' })

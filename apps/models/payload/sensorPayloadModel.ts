@@ -5,6 +5,7 @@ export interface sensorPayloadInterface {
   id: number
   sensor_name: string
   sensor_type: string
+  atributes: string | string[]
 }
 
 interface sensorPayloadInstance
@@ -26,6 +27,22 @@ export const sensorPayloadModel = sequelize.define<sensorPayloadInstance>(
     sensor_type: {
       type: DataTypes.ENUM('input', 'output'),
       defaultValue: 'input'
+    },
+    atributes: {
+      type: DataTypes.TEXT, // Menggunakan TEXT untuk menyimpan JSON sebagai string
+      allowNull: false,
+      get () {
+        return JSON.parse(this.getDataValue('atributes') as string)
+      },
+      set (value: string | string[] | undefined) {
+        if (value !== undefined) {
+          if (Array.isArray(value)) {
+            this.setDataValue('atributes', JSON.stringify(value))
+          } else {
+            this.setDataValue('atributes', value)
+          }
+        }
+      }
     }
   },
   {

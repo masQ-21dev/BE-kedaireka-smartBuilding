@@ -24,8 +24,24 @@ module.exports = {
       ip: {
         type: Sequelize.STRING,
         allowNull: true
+      },
+      user_id: {
+        type: Sequelize.UUID,
+        allowNull: false
       }
     })
+      .then(async () => {
+        await queryInterface.addConstraint('device_table', {
+          fields: ['user_id'],
+          type: 'foreign key',
+          references: {
+            table: 'user_table',
+            field: 'user_id'
+          },
+          onDelete: 'cascade',
+          onUpdate: 'cascade'
+        })
+      })
   },
 
   async down (queryInterface, Sequelize) {

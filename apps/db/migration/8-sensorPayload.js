@@ -18,6 +18,10 @@ module.exports = {
       sensor_type: {
         type: Sequelize.ENUM('input', 'output'),
         defaultValue: 'input'
+      },
+      atributes: {
+        type: Sequelize.TEXT,
+        allowNull: false
       }
     })
   },

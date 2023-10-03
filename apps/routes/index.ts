@@ -8,6 +8,7 @@ import { authRouter } from './authRoute'
 import { userRoutes } from './userRoute'
 import { resetPasswordRoute } from './resetPasswordRoute'
 import { payloadRoute } from './payloadRoute'
+import { routerDevice } from './device'
 
 export const appRouterV2 = async (app: Express): Promise<any> => {
   app.get(
@@ -35,4 +36,5 @@ export const appRouterV2 = async (app: Express): Promise<any> => {
   userRoutes(app)
   resetPasswordRoute(app)
   payloadRoute(app)
+  routerDevice.device(app)
 }

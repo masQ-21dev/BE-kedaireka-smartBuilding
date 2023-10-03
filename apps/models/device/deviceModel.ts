@@ -2,12 +2,14 @@ import { type Model, type Optional, UUIDV4, DataTypes } from 'sequelize'
 import { sequelize } from '..'
 import { type baseAtributes, baseModel } from '../baseModel'
 import { type sensorAtributes, sensorModel } from './sensorModel'
+import { userModel } from '../userModel'
 
 export interface deviceAtributes extends baseAtributes {
   device_id: string
   device_name: string
   mac_adress: string
   ip: string
+  user_id: string
 }
 
 type deviceCreationAtributes = Optional<
@@ -42,6 +44,14 @@ export const deviceModel = sequelize.define<deviceInstance>(
     ip: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    user_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: userModel,
+        key: 'user_id'
+      }
     }
   },
   {
