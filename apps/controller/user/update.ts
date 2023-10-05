@@ -35,9 +35,13 @@ export const updateUser = async function (req: any, res: Response): Promise<any>
     }
 
     const newData: userAtributes | any = {
-      ...(requestBody.user_name.length > 0 && {
+      ...(Boolean(requestBody.user_name)) && {
         user_name: requestBody.user_name
-      })
+      },
+      ...(Boolean(requestBody.role)) && {
+        role: requestBody.role
+      },
+      updated_at: new Date()
     }
 
     await userModel.update(newData, {

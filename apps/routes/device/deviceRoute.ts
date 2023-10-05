@@ -22,4 +22,14 @@ export const deviceRouter = (app: Express) => {
     '/',
     async (req: Request, res: Response) => await deviceCobtroller.create(req, res)
   )
+
+  route.patch(
+    '/',
+    async (req: Request, res: Response) => await deviceCobtroller.update(req, res)
+  )
+
+  route.delete(
+    '/',
+    async (req: Request, res: Response) => await deviceCobtroller.remove(req, res)
+  )
 }

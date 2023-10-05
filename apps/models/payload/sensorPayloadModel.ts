@@ -34,7 +34,7 @@ export const sensorPayloadModel = sequelize.define<sensorPayloadInstance>(
       get () {
         return JSON.parse(this.getDataValue('atributes') as string)
       },
-      set (value: string | string[] | undefined) {
+      set (value: string[] | undefined) {
         if (value !== undefined) {
           if (Array.isArray(value)) {
             this.setDataValue('atributes', JSON.stringify(value))

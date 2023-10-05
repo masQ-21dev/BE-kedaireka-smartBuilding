@@ -3,9 +3,9 @@ import { sequelize } from '..'
 import { sensorModel } from './sensorModel'
 
 export interface atributes {
-  id: number
+  id?: number
   atribute_name: string
-  atribute_value: string
+  atribute_value?: string
   sensor_id: number
 }
 

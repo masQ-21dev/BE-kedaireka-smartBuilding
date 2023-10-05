@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import ip from 'ip'
 
 dotenv.config()
 
@@ -7,7 +8,7 @@ export const CONFIG = {
   appVersion: process.env.APP_VERSION,
   appSemantic: process.env.APP_SEMANTIC,
   appMode: process.env.APP_MODE ?? 'development',
-  appUrl: process.env.APP_URL,
+  appUrl: process.env.APP_URL = `http://${ip.address()}`,
   env: process.env.APP_ENV,
   port: process.env.APP_PORT ?? 5000,
   log: process.env.APP_LOG === 'true',

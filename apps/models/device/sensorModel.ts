@@ -10,15 +10,15 @@ export interface sensorAtributes {
   sensor_type: string
 }
 
-interface deviceInstance
+interface sensorInstance
   extends Model<sensorAtributes>,
   sensorAtributes {
   inputAtributes?: atributes
   outputAtributes?: atributes
 }
 
-export const sensorModel = sequelize.define<deviceInstance>(
-  'device_table',
+export const sensorModel = sequelize.define<sensorInstance>(
+  'sensor_table',
   {
     id: {
       type: DataTypes.BIGINT,

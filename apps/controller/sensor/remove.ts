@@ -1,16 +1,15 @@
 import { type Response } from 'express'
-import { deviceModel, type deviceAtributes } from '../../models/device/deviceModel'
+import { sensorModel, type sensorAtributes } from '../../models/device/sensorModel'
 import { RequestChecker } from '../../utilities/requestChecker'
 import { ResponseData } from '../../utilities/response'
 import { StatusCodes } from 'http-status-codes'
 import { CONSOLE } from '../../utilities/log'
-import { Op } from 'sequelize'
 
-export const removeDevice = async function (req: any, res: Response): Promise<any> {
-  const requestQuery = req.query as deviceAtributes
+export const removeSensor = async function (req: any, res: Response): Promise<any> {
+  const requestQuery = req.query as sensorAtributes
 
   const emptyfield = RequestChecker({
-    requireList: ['device_id'],
+    requireList: ['id'],
     requestData: requestQuery
   })
 
@@ -20,25 +19,17 @@ export const removeDevice = async function (req: any, res: Response): Promise<an
   }
 
   try {
-    const result = await deviceModel.findOne({
-      where: {
-        deleted_at: { [Op.eq]: 0 },
-        device_id: { [Op.like]: requestQuery.device_id }
-      }
-    })
+    const result = await sensorModel.findByPk(requestQuery.id)
 
     if (result == null) {
       const message = 'device not found!'
       const response = ResponseData.error(message)
       return res.status(StatusCodes.NOT_FOUND).json(response)
     }
-
-    result.deleted_at = 1
-    await result.save()
+    await result.destroy()
 
     const response = ResponseData.default
-    const message = { message: 'success' }
-    response.data = message
+    response.data = { message: 'success' }
     return res.status(StatusCodes.OK).json(response)
   } catch (error: any) {
     CONSOLE.error(error.message)

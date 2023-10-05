@@ -1,14 +1,10 @@
-/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-var-requires */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import express, { type Express, type Request, type Response, type Application } from 'express'
+import express, { type Express } from 'express'
 import dotenv from 'dotenv'
 import { CONFIG } from './apps/config'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import { appRouterV2 } from './apps/routes'
-const cors = require('cors')
+import cors from 'cors'
 
 // For env File
 dotenv.config()

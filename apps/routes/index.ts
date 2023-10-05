@@ -36,5 +36,7 @@ export const appRouterV2 = async (app: Express): Promise<any> => {
   userRoutes(app)
   resetPasswordRoute(app)
   payloadRoute(app)
-  routerDevice.device(app)
+
+  app.routes = routerDevice(app)
+  // routerDevice.device(app)
 }

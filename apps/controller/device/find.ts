@@ -76,8 +76,8 @@ export const findOneByDeviceId = async function (req: any, res: Response): Promi
     })
 
     if (result == null) {
-      const response = ResponseData.error(`unable to process request! error( ${requestParam})`)
-      return res.status(StatusCodes.BAD_REQUEST).json(response)
+      const response = ResponseData.error('NOT found')
+      return res.status(StatusCodes.NOT_FOUND).json(response)
     }
 
     const response = ResponseData.default
