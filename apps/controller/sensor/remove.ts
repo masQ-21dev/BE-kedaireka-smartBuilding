@@ -22,7 +22,7 @@ export const removeSensor = async function (req: any, res: Response): Promise<an
     const result = await sensorModel.findByPk(requestQuery.id)
 
     if (result == null) {
-      const message = 'device not found!'
+      const message = 'sensor not found!'
       const response = ResponseData.error(message)
       return res.status(StatusCodes.NOT_FOUND).json(response)
     }
