@@ -5,6 +5,7 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import { appRouterV2 } from './apps/routes'
 import cors from 'cors'
+import { CONSOLE } from './apps/utilities/log'
 
 // For env File
 dotenv.config()
@@ -25,6 +26,7 @@ app.use(function (req, res, next) {
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, content-type, Authorization, Content-Type'
   )
+  CONSOLE.info(`[${req.method}] - ${req.url} - ${req.ip} - ${new Date().toISOString()} `)
   next()
 })
 app.use('/public', express.static('public'))
