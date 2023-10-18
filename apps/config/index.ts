@@ -7,7 +7,7 @@ export const CONFIG = {
   appName: process.env.APP_NAME,
   appVersion: process.env.APP_VERSION,
   appSemantic: process.env.APP_SEMANTIC,
-  appMode: process.env.APP_MODE ?? 'development',
+  appMode: process.env.APP_MODE ?? 'dev',
   appUrl: process.env.APP_URL = `http://${ip.address()}`,
   env: process.env.APP_ENV,
   port: process.env.APP_PORT ?? 5000,

@@ -3,6 +3,7 @@ import { sequelize } from '..'
 import { type baseAtributes, baseModel } from '../baseModel'
 import { type sensorAtributes, sensorModel } from './sensorModel'
 import { userModel } from '../userModel'
+import { deviceConnectioStatusModel } from './deviceConnectionStatusModel'
 
 export interface deviceAtributes extends baseAtributes {
   device_id: string
@@ -68,3 +69,6 @@ export const deviceModel = sequelize.define<deviceInstance>(
 
 deviceModel.hasMany(sensorModel, { foreignKey: 'device_id', sourceKey: 'device_id', as: 'sensor' })
 sensorModel.belongsTo(deviceModel, { foreignKey: 'device_id', as: 'sensor' })
+
+deviceModel.hasOne(deviceConnectioStatusModel, { foreignKey: 'device_id', sourceKey: 'device_id', as: 'statusConnection' })
+deviceConnectioStatusModel.belongsTo(deviceModel, { foreignKey: 'device_id', as: 'statusConnection' })
