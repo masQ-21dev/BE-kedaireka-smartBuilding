@@ -5,13 +5,17 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import { appRouterV2 } from './apps/routes'
 import cors from 'cors'
+import http from 'http'
+import { Server as SocketIo } from 'socket.io'
 import { CONSOLE } from './apps/utilities/log'
+import socket from './apps/soket'
 
 // For env File
 dotenv.config()
 
 const app: Express = express()
 const port = CONFIG.port
+const server = http.createServer(app)
 
 process.env.TZ = 'Asia/jakarta'
 
@@ -36,3 +40,7 @@ app.routes = appRouterV2(app)
 app.listen(port, () => {
   console.log(`Server is Fire at ${CONFIG.appUrl}:${port}/api/v2`)
 })
+
+// init socket
+const io = new SocketIo(server, { path: '/ws' })
+socket.init(io)
