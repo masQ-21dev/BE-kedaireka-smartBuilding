@@ -9,6 +9,7 @@ import { userRoutes } from './userRoute'
 import { resetPasswordRoute } from './resetPasswordRoute'
 import { payloadRoute } from './payloadRoute'
 import { routerDevice } from './device'
+import { mqttClient } from '../mqtt'
 
 export const appRouterV2 = async (app: Express): Promise<any> => {
   app.get(
@@ -20,6 +21,10 @@ export const appRouterV2 = async (app: Express): Promise<any> => {
         }
         const response = ResponseData.default
         response.data = data
+
+        // mqtt publish in  route
+        mqttClient.publish('topik/test', JSON.stringify(response))
+
         return res.status(StatusCodes.OK).json(response)
       } catch (error: any) {
         CONSOLE.error(error.message)

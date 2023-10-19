@@ -10,6 +10,9 @@ import { Server as SocketIo } from 'socket.io'
 import { CONSOLE } from './apps/utilities/log'
 import socket from './apps/soket'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { mqttClient } from './apps/mqtt'
+
 // For env File
 dotenv.config()
 
@@ -40,7 +43,17 @@ app.routes = appRouterV2(app)
 app.listen(port, () => {
   console.log(`Server is Fire at ${CONFIG.appUrl}:${port}/api/v2`)
 })
+// mqtt subcribe
+mqttClient.subscribe('topik/test')
 
+mqttClient.on('message', (topic, message) => {
+  console.log(message.toString())
+})
+
+// mqtt publish
+mqttClient.publish('topik/test', 'Halo dari server Express!')
+// mqtt publish
+mqttClient.publish('topik/test', 'Halo dari server ws')
 // init socket
 const io = new SocketIo(server, { path: '/ws' })
 socket.init(io)
