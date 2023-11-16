@@ -37,6 +37,10 @@ app.use('/public', express.static('public'))
 
 app.routes = appRouterV2(app)
 
+app.get('/', (req, res) => {
+  res.send('test api')
+})
+
 app.listen(port, () => {
   console.log(`Server is Fire at ${CONFIG.appUrl}:${port}/api/v2`)
 })
