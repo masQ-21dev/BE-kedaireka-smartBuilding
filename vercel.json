@@ -5,5 +5,5 @@
             "src" : "/",
             "use": "@vercel/node"
         }
-    ],
+    ]
 }
